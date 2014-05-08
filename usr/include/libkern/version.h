@@ -30,40 +30,40 @@
 /* VERSION_MAJOR, version_major is an integer that represents that major version
  * of the kernel
  */
-#define VERSION_MAJOR		###KERNEL_VERSION_MAJOR###
+#define VERSION_MAJOR		13
 
 /* VERSION_MINOR, version_minor is an integer that represents the minor version
  * of the kernel
  */
-#define VERSION_MINOR		###KERNEL_VERSION_MINOR###
+#define VERSION_MINOR		1
 
 /* VERSION_VARIANT, version_variant is a string that contains the revision,
  * stage, and prerelease level of the kernel
  */
-#define VERSION_VARIANT		"###KERNEL_VERSION_VARIANT###"
+#define VERSION_VARIANT		"0"
 
 /* VERSION_REVISION, version_revision is an integer that represents the revision
  * of the kernel
  */
-#define VERSION_REVISION	###KERNEL_VERSION_REVISION###
+#define VERSION_REVISION	0
 
 /* VERSION_STAGE, version_stage, is an integer set to one of the following: */
 #define VERSION_STAGE_DEV	0x20
 #define VERSION_STAGE_ALPHA	0x40
 #define VERSION_STAGE_BETA	0x60
 #define VERSION_STAGE_RELEASE	0x80
-#define VERSION_STAGE		###KERNEL_VERSION_STAGE###
+#define VERSION_STAGE		VERSION_STAGE_RELEASE
 
 /* VERSION_PRERELEASE_LEVEL, version_prerelease_level, is an integer sequence
  * number to distinguish between pre-release builds
  */
-#define VERSION_PRERELEASE_LEVEL	###KERNEL_VERSION_PRERELEASE_LEVEL###
+#define VERSION_PRERELEASE_LEVEL	0
 
 /* OSTYPE, ostype, is a string as returned by uname -s */
 #define	OSTYPE		"Darwin"
 
 /* OSRELEASE, osrelease, is a string as returned by uname -r */
-#define OSRELEASE	"###KERNEL_VERSION_LONG###"
+#define OSRELEASE	"13.1.0"
 
 #ifndef ASSEMBLER
 

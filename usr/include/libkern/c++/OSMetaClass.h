@@ -59,12 +59,8 @@ class OSOrderedSet;
 
 #ifdef XNU_KERNEL_PRIVATE
 
-#ifdef CONFIG_EMBEDDED
-#define APPLE_KEXT_VTABLE_PADDING   0
-#else /* CONFIG_EMBEDDED */
 /*! @parseOnly */
 #define APPLE_KEXT_VTABLE_PADDING   1
-#endif /* CONFIG_EMBEDDED */
 
 #else /* XNU_KERNEL_PRIVATE */
 #include <TargetConditionals.h>
@@ -84,14 +80,6 @@ class OSOrderedSet;
 #else
 #define APPLE_KEXT_LEGACY_ABI  1
 #endif
-
-
-#if defined(__arm__)
-#undef APPLE_KEXT_LEGACY_ABI
-#endif
-
-extern "C" void kprintf(const char* fmt, ...);
-
 
 #if defined(__LP64__)
 /*! @parseOnly */
@@ -380,36 +368,7 @@ _ptmf2ptf(const OSMetaClassBase *self, void (OSMetaClassBase::*func)(void))
         return map.fPFN;
     }
 }
-#elif defined(__arm__)
 
-static inline _ptf_t
-_ptmf2ptf(const OSMetaClassBase *self, void (OSMetaClassBase::*func)(void))
-{
-    union {
-        void (OSMetaClassBase::*fIn)(void);
-        uintptr_t fVTOffset;
-        _ptf_t fPFN;
-    } map;
-
-    map.fIn = func;
-    
-    // High order function pointers are considered plain member functions
-    if (!(map.fVTOffset & 0x80000000)) {
-        union {
-            const OSMetaClassBase *fObj;
-            _ptf_t **vtablep;
-        } u;
-        u.fObj = self;
-        // Virtual member function so dereference vtable, no need to add +1.
-        return *(_ptf_t*)(((uintptr_t)*u.vtablep) + map.fVTOffset);
-    } else {
-        // Not virtual, i.e. plain member func
-        return map.fPFN;
-    }
-
-    
-    return map.fPFN;
-}
 #else
 #error Unknown architecture.
 #endif /* __arm__ */
