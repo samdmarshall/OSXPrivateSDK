@@ -12,7 +12,7 @@ def make_dir(path):
 def make_sym(original, path):
     if file_exists(path) == False:
         os.symlink(original, path)
-        
+
 def copy_private(path, sdk_path):
     private_path = os.path.join(os.getcwd(), path)
     for root, dirs, files in os.walk(private_path, followlinks=False):
@@ -20,8 +20,7 @@ def copy_private(path, sdk_path):
             original_path = os.path.join(root, name)
             sdk_item_path = original_path.split(os.getcwd()+'/')[1]
             private_sdk_item_path = os.path.join(sdk_path, sdk_item_path)
-            if file_exists(private_sdk_item_path) == False:
-                make_dir(private_sdk_item_path)
+            make_dir(private_sdk_item_path)
         
         for name in files:
             original_path = os.path.join(root, name)
