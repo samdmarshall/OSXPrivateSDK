@@ -34,7 +34,7 @@ kSDKSettingsPlist = 'SDKSettings.plist'
 platform_path = subprocess.check_output(('xcrun', '--show-sdk-platform-path')).rstrip('\n')
 platform_path = os.path.join(platform_path, 'Developer/SDKs/')
 
-private_sdk = os.path.join(platform_path, 'OSXPrivate.sdk')
+private_sdk = os.path.join(platform_path, 'MacOSX10.9.private.sdk')
 
 make_dir(private_sdk)
 

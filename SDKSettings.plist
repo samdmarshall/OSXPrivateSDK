@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CanonicalName</key>
-	<string>macosxprivate</string>
+	<string>macosx10.9.private</string>
 	<key>CustomProperties</key>
 	<dict>
 		<key>KERNEL_EXTENSION_HEADER_SEARCH_PATHS</key>
