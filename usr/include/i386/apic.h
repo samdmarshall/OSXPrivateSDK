@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2008 Apple Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,37 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
+/*
+ * @OSF_COPYRIGHT@
+ * 
+ */
+#ifndef _I386_APIC_H_
+#define _I386_APIC_H_
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+#define IOAPIC_START			0xFEC00000
+#define	IOAPIC_SIZE			0x00000020
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+#define IOAPIC_RSELECT			0x00000000
+#define IOAPIC_RWINDOW			0x00000010
+#define IOA_R_ID			0x00
+#define		IOA_R_ID_SHIFT		24
+#define IOA_R_VERSION			0x01
+#define		IOA_R_VERSION_MASK	0xFF
+#define		IOA_R_VERSION_ME_SHIFT	16
+#define		IOA_R_VERSION_ME_MASK	0xFF
+#define IOA_R_REDIRECTION		0x10
+#define 	IOA_R_R_VECTOR_MASK	0x000FF
+#define		IOA_R_R_DM_MASK		0x00700
+#define		IOA_R_R_DM_FIXED	0x00000
+#define		IOA_R_R_DM_LOWEST	0x00100
+#define		IOA_R_R_DM_NMI		0x00400
+#define		IOA_R_R_DM_RESET	0x00500
+#define		IOA_R_R_DM_EXTINT	0x00700
+#define		IOA_R_R_DEST_LOGICAL	0x00800
+#define		IOA_R_R_DS_PENDING	0x01000
+#define		IOA_R_R_IP_PLRITY_LOW	0x02000
+#define		IOA_R_R_TM_LEVEL	0x08000
+#define		IOA_R_R_MASKED		0x10000
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
-#endif /* KERNEL_PRIVATE */
+#endif /* _I386_APIC_H_ */
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */

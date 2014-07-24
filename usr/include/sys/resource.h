@@ -340,6 +340,29 @@ struct proc_rlimit_control_wakeupmon {
 #define IOPOL_NORMAL            IOPOL_IMPORTANT
 
 
+#define IOPOL_VFS_HFS_CASE_SENSITIVITY_DEFAULT	0
+#define IOPOL_VFS_HFS_CASE_SENSITIVITY_FORCE_CASE_SENSITIVE	1
+
+/*
+ * Structures for use in communicating via iopolicysys() between Libc and the
+ * kernel.  Not to be used by user programs directly.
+ */
+
+/*
+ * the command to iopolicysys()
+ */
+#define	IOPOL_CMD_GET		0x00000001	/* Get I/O policy */
+#define	IOPOL_CMD_SET		0x00000002	/* Set I/O policy */
+
+/*
+ * Second parameter to iopolicysys()
+ */
+struct _iopol_param_t {
+	int iop_scope;	/* current process or a thread */
+	int iop_iotype;
+	int iop_policy;
+};
+
 #endif /* __DARWIN_C_LEVEL >= __DARWIN_C_FULL */
 
 

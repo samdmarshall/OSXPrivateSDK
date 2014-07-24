@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2000-2005 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,28 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
+/*
+ * @OSF_COPYRIGHT@
+ */
+#ifdef	KERNEL_PRIVATE
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+#ifndef _I386_IO_MAP_ENTRIES
+#define _I386_IO_MAP_ENTRIES
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+#include <sys/cdefs.h>
+#include <sys/appleapiopts.h>
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
-#endif /* KERNEL_PRIVATE */
+#ifdef	__APPLE_API_PRIVATE
+__BEGIN_DECLS
+extern vm_offset_t	io_map(
+				vm_map_offset_t		phys_addr,
+				vm_size_t		size,
+				unsigned int            flags);
+extern vm_offset_t io_map_spec(vm_map_offset_t phys_addr, vm_size_t size, unsigned int flags);
+__END_DECLS
+#endif	/* __APPLE_API_PRIVATE */
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+#endif  /* _I386_IO_MAP_ENTRIES */
+
+#endif	/* KERNEL_PRIVATE */
+

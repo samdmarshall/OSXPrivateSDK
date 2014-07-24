@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2006 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,29 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
+ 
+#ifndef _I386_VMX_H_
+#define _I386_VMX_H_
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
-
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
+#if defined(__cplusplus)
+extern "C" {
 #endif
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
-#endif /* KERNEL_PRIVATE */
+#include <mach/boolean.h>
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+/*
+ * Error codes
+ */
+#define VMX_OK			0 /* all ok */
+#define VMX_UNSUPPORTED	1 /* VT unsupported or disabled on 1+ cores */
+#define VMX_INUSE		2 /* VT is being exclusively used already */
+
+/* SPI */
+int host_vmxon(boolean_t exclusive);
+void host_vmxoff(void);
+
+#if defined(__cplusplus)
+}
+#endif
+
+#endif

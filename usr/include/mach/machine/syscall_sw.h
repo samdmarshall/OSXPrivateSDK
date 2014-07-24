@@ -25,25 +25,18 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+#ifdef	PRIVATE
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+#ifndef _MACH_MACHINE_SYSCALL_SW_H_
+#define _MACH_MACHINE_SYSCALL_SW_H_
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
 #if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
+#include "mach/i386/syscall_sw.h"
 #else
 #error architecture not supported
 #endif
-#endif /* KERNEL_PRIVATE */
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+#endif	/* _MACH_MACHINE_SYSCALL_SW_H_ */
+
+#endif	/* PRIVATE */

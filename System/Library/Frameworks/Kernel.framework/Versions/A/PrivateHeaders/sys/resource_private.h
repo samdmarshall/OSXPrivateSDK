@@ -61,8 +61,8 @@
  *	@(#)resource.h	8.2 (Berkeley) 1/4/94
  */
 
-#ifndef _SYS_RESOURCE_H_
-#define	_SYS_RESOURCE_H_
+#ifndef _SYS_RESOURCE_PRIVATE_H_
+#define	_SYS_RESOURCE_PRIVATE_H_
 
 #include <sys/appleapiopts.h>
 #include <sys/cdefs.h>
@@ -424,4 +424,4 @@ struct _iopol_param_t {
 
 #endif /* __DARWIN_C_LEVEL >= __DARWIN_C_FULL */
 
-#endif	/* !_SYS_RESOURCE_H_ */
+#endif	/* !_SYS_RESOURCE_PRIVATE_H_ */

@@ -594,7 +594,7 @@ extern Boolean OSTestAndClear(
  */
 typedef SInt32 OSSpinLock;
 
-#ifdef PRIVATE
+//#ifdef PRIVATE
 /*!
  * @function OSSpinLockTry
  *
@@ -619,7 +619,7 @@ extern Boolean OSSpinLockTry(volatile OSSpinLock * lock);
  * Unlocks a spinlock.
  */
 extern void OSSpinLockUnlock(volatile OSSpinLock * lock);
-#endif /* PRIVATE */
+//#endif /* PRIVATE */
 
 /*!
  * @function OSSynchronizeIO

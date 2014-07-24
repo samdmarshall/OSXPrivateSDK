@@ -25,25 +25,27 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
+#ifndef _BSD_MACHINE_CPU_H_
+#define _BSD_MACHINE_CPU_H_
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+#include <sys/appleapiopts.h>
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+#ifdef __APPLE_API_OBSOLETE
+#define	LABELSECTOR	(1024 / DEV_BSIZE)	/* sector containing label */
+#define	LABELOFFSET	0			/* offset of label in sector */
+#define	MAXPARTITIONS	8			/* number of partitions */
+#define	RAW_PART	2			/* raw partition: xx?c */
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
+/* Just a dummy */
+struct cpu_disklabel {
+	int	cd_dummy;			/* must have one element. */
+};
+#endif /* __APPLE_API_OBSOLETE */
+
 #if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
+#include "i386/disklabel.h"
 #else
 #error architecture not supported
 #endif
-#endif /* KERNEL_PRIVATE */
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+#endif /* _BSD_MACHINE_CPU_H_ */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2000-2003 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,46 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+#ifndef _I386_MTRR_H_
+#define _I386_MTRR_H_
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+/*
+ * Memory type range register (MTRR) support.
+ */
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
-#endif /* KERNEL_PRIVATE */
+#include <mach/std_types.h>
+#include <sys/appleapiopts.h>
+#include <sys/cdefs.h>
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+#ifdef __APPLE_API_PRIVATE
+
+enum {
+	MTRR_TYPE_UNCACHEABLE  = 0,
+	MTRR_TYPE_WRITECOMBINE = 1,
+	MTRR_TYPE_WRITETHROUGH = 4,
+	MTRR_TYPE_WRITEPROTECT = 5,
+	MTRR_TYPE_WRITEBACK    = 6
+};
+
+__BEGIN_DECLS
+
+extern void          mtrr_init(void);
+extern kern_return_t mtrr_update_cpu(void);
+extern kern_return_t mtrr_update_all_cpus(void);
+
+extern kern_return_t mtrr_range_add(	addr64_t phys_addr,
+					uint64_t length,
+					uint32_t mem_type);
+
+extern kern_return_t mtrr_range_remove(	addr64_t phys_addr,
+					uint64_t length,
+					uint32_t mem_type);
+
+extern void          pat_init(void);
+
+__END_DECLS
+
+#endif /* __APPLE_API_PRIVATE */
+
+#endif /* !_I386_MTRR_H_ */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2000-2005 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,36 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
+#ifndef _I386_MACHINE_CPU_H_
+#define _I386_MACHINE_CPU_H_
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+#include <mach/mach_types.h>
+#include <mach/boolean.h>
+#include <kern/kern_types.h>
+#include <pexpert/pexpert.h>
+#include <sys/cdefs.h>
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+__BEGIN_DECLS
+void	cpu_machine_init(
+	void);
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
-#endif /* KERNEL_PRIVATE */
+void	handle_pending_TLB_flushes(
+	void);
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+int cpu_signal_handler(x86_saved_state_t *regs);
+
+kern_return_t cpu_register(
+        int *slot_nump);
+__END_DECLS
+
+static inline void cpu_halt(void)
+{
+	asm volatile( "wbinvd; cli; hlt" );
+}
+
+static inline void cpu_pause(void)
+{
+	asm volatile( "rep; nop" );
+}
+
+#endif /* _I386_MACHINE_CPU_H_ */

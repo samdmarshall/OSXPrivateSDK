@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2010 Apple Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,47 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
+/*
+ * @OSF_COPYRIGHT@
+ */
+/*
+ * @APPLE_FREE_COPYRIGHT@
+ */
+/*
+ *	File:		rtclock_protos.h
+ *	Purpose:	C Routines for handling the machine dependent
+ *				real-time clock.
+ */
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+#ifndef _I386_RTCLOCK_PROTOS_H_
+#define _I386_RTCLOCK_PROTOS_H_
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+typedef struct pal_rtc_nanotime pal_rtc_nanotime_t;
+extern uint64_t tsc_rebase_abs_time;
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
-#endif /* KERNEL_PRIVATE */
+extern void	_rtc_nanotime_adjust(
+		        uint64_t		tsc_base_delta,
+		        pal_rtc_nanotime_t	*dst);
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+extern uint64_t	_rtc_nanotime_read(
+			pal_rtc_nanotime_t	*rntp);
+
+extern uint64_t _rtc_tsc_to_nanoseconds(
+			uint64_t    value,
+			pal_rtc_nanotime_t	*rntp);
+
+extern void	rtclock_intr(x86_saved_state_t *regs);
+
+
+/*
+ * Timer control.
+ */
+typedef struct {
+	void	 (*config)(void);
+	uint64_t (*set)   (uint64_t, uint64_t);
+} rtc_timer_t;
+extern rtc_timer_t	*rtc_timer;
+
+extern void		rtc_timer_init(void);
+
+#endif /* _I386_RTCLOCK_PROTOS_H_ */

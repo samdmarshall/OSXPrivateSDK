@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2000-2006 Apple Computer, Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,50 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+/*
+ * This private header exports 3 APIs.
+ *	_OSRosettaCheck() - 	An inline function that returns true if we are
+ *				currently running under Rosetta.
+ *	IF_ROSETTA() -		Which is used to as a regular conditional
+ *				expression that is true only if the current
+ *				code is executing in the Rosetta
+ *				translation space.
+ *	ROSETTA_ONLY(exprs) - 	Which is used to create a block code that only
+ *				executes if we are running in Rosetta.
+ *
+ * for example
+ *
+ * IF_ROSETTA() {
+ *	// Do Cross endian swapping of input data
+ *	outdata = OSSwap??(indata);
+ * }
+ * else {
+ * 	// Do straight through 
+ *	outdata = indata;
+ * }
+ *
+ * outdata = indata;
+ * ROSETTA_ONLY(
+ *	// Do Cross endian swapping of input data
+ *	outdata = OSSwap??(outdata);
+ * );
+ */
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+#ifndef _LIBKERN_OSCROSSENDIAN_H
+#define _LIBKERN_OSCROSSENDIAN_H
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
-#endif /* KERNEL_PRIVATE */
+#include <sys/sysctl.h>
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+static __inline__ int _OSRosettaCheck(void) { return 0; }
+
+#define IF_ROSETTA() if (__builtin_expect(_OSRosettaCheck(), 0) )
+
+#define ROSETTA_ONLY(exprs)	\
+do {				\
+    IF_ROSETTA() {		\
+	exprs			\
+    }				\
+} while(0)
+
+#endif /*  _LIBKERN_OSCROSSENDIAN_H */

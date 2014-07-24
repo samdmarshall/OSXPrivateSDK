@@ -25,25 +25,13 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
+#ifndef _BSD_MACHINE_CPU_H_
+#define _BSD_MACHINE_CPU_H_
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
-
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
-
-#else /* !KERNEL_PRIVATE -- System Framework header */
 #if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
+#include "i386/disklabel.h"
 #else
 #error architecture not supported
 #endif
-#endif /* KERNEL_PRIVATE */
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+#endif /* _BSD_MACHINE_CPU_H_ */

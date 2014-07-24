@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2004-2007 Apple Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,58 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
-
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
-
+/*
+ * @OSF_COPYRIGHT@
+ */
+/*
+ * @APPLE_FREE_COPYRIGHT@
+ */
+/*
+ *	File:		tsc.h
+ *	Purpose:	Contains the TSC initialization and conversion
+ *			factors.
+ */
 #ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+#ifndef _I386_TSC_H_
+#define _I386_TSC_H_
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
+#define BASE_NHM_CLOCK_SOURCE 	133333333ULL
+#define IA32_PERF_STS		0x198
+#define	SLOW_TSC_THRESHOLD	1000067800	/* if slower, nonzero shift required in nanotime() algorithm */
+
+#ifndef ASSEMBLER
+extern uint64_t	busFCvtt2n;
+extern uint64_t	busFCvtn2t;
+extern uint64_t tscFreq;
+extern uint64_t tscFCvtt2n;
+extern uint64_t tscFCvtn2t;
+extern uint64_t tscGranularity;
+extern uint64_t bus2tsc;
+extern uint64_t busFreq;
+extern uint32_t	flex_ratio;
+extern uint32_t	flex_ratio_min;
+extern uint32_t	flex_ratio_max;
+extern uint64_t	tsc_at_boot;
+
+struct tscInfo
+{
+	uint64_t	busFCvtt2n;
+	uint64_t	busFCvtn2t;
+	uint64_t	tscFreq;
+	uint64_t	tscFCvtt2n;
+	uint64_t	tscFCvtn2t;
+	uint64_t	tscGranularity;
+	uint64_t	bus2tsc;
+	uint64_t	busFreq;
+	uint32_t	flex_ratio;
+	uint32_t	flex_ratio_min;
+	uint32_t	flex_ratio_max;
+};
+typedef struct tscInfo tscInfo_t;
+
+extern void tsc_get_info(tscInfo_t *info);
+
+extern void tsc_init(void);
+#endif /* ASSEMBLER */
+#endif /* _I386_TSC_H_ */
 #endif /* KERNEL_PRIVATE */
-
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2007 Apple Inc. All rights reserved.
+ * Copyright (c) 2010 Apple Inc. All rights reserved.
  *
  * @APPLE_OSREFERENCE_LICENSE_HEADER_START@
  * 
@@ -25,25 +25,30 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+#ifndef _SYS_FILEPORT_H_
+#define _SYS_FILEPORT_H_
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
-#endif
+#include <sys/_types.h>
+#include <sys/cdefs.h>
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
-#endif
-#endif /* KERNEL_PRIVATE */
 
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
+__BEGIN_DECLS
+
+#if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
+
+#ifndef _FILEPORT_T
+#define _FILEPORT_T
+typedef __darwin_mach_port_t fileport_t;
+#define FILEPORT_NULL	((fileport_t)0)
+#endif /* _FILEPORT_T */
+
+int	fileport_makeport(int, fileport_t *);
+int	fileport_makefd(fileport_t);
+
+#endif /* (!_POSIX_C_SOURCE || _DARWIN_C_SOURCE) */
+
+__END_DECLS
+
+
+#endif	/* !_SYS_FILEPORT_H_ */

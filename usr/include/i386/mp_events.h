@@ -25,25 +25,59 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
-//#ifdef	PRIVATE
+#ifndef __AT386_MP_EVENTS__
+#define	__AT386_MP_EVENTS__
 
-#ifndef _MACHINE_CPU_CAPABILITIES_H
-#define _MACHINE_CPU_CAPABILITIES_H
+/* Interrupt types */
 
-#ifdef KERNEL_PRIVATE
-#if defined (__i386__) || defined (__x86_64__)
-#include "i386/cpu_capabilities.h"
-#else
-#error architecture not supported
+#ifndef ASSEMBLER
+
+#include <sys/cdefs.h>
+
+typedef enum {
+	MP_TLB_FLUSH = 0,
+	MP_KDP,
+	MP_KDB,
+	MP_AST,
+	MP_RENDEZVOUS,
+	MP_IDLE,
+	MP_UNIDLE,
+	MP_CHUD,
+	MP_BROADCAST,
+	MP_CALL,
+	MP_CALL_PM,
+	MP_LAST
+} mp_event_t;
+
+#define MP_EVENT_NAME_DECL()	\
+const char *mp_event_name[] = {	\
+	"MP_TLB_FLUSH",		\
+	"MP_KDP",		\
+	"MP_KDB",		\
+	"MP_AST",		\
+	"MP_RENDEZVOUS",	\
+	"MP_IDLE",		\
+	"MP_UNIDLE",		\
+	"MP_CHUD",		\
+	"MP_BROADCAST",		\
+	"MP_CALL",		\
+	"MP_CALL_PM",		\
+	"MP_LAST"		\
+}
+
+typedef enum { SYNC, ASYNC, NOSYNC } mp_sync_t;
+
+__BEGIN_DECLS
+
+extern void	i386_signal_cpu(int cpu, mp_event_t event, mp_sync_t mode);
+extern void	i386_signal_cpus(mp_event_t event, mp_sync_t mode);
+extern int	i386_active_cpus(void);
+extern void	i386_activate_cpu(void);
+extern void	i386_deactivate_cpu(void);
+extern void	cpu_NMI_interrupt(int /* cpu */);
+
+__END_DECLS
+
 #endif
 
-#else /* !KERNEL_PRIVATE -- System Framework header */
-#if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
-#else
-#error architecture not supported
 #endif
-#endif /* KERNEL_PRIVATE */
-
-#endif /* _MACHINE_CPU_CAPABILITIES_H */
-//#endif /* PRIVATE */
