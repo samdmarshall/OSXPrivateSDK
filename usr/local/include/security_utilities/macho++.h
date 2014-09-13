@@ -202,8 +202,6 @@ public:
 	bool isUniversal() const { return mArchList != NULL; }
 	Architecture bestNativeArch() const;
 	
-	size_t offset() const { return mBase; }
-	
 public:
 	static uint32_t typeOf(FileDesc fd);
 

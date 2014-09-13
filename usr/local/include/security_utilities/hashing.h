@@ -31,7 +31,7 @@
 #include <cstring>
 #include <memory>
 #include <sys/types.h>
-#include <CommonCrypto/CommonDigestSPI.h>	// SPI slated to become API
+#include "CommonDigestSPI.h"	// SPI slated to become API
 
 namespace Security {
 

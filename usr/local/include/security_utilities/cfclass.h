@@ -25,7 +25,7 @@
 #define _CFCLASS_H
 
 #include <list>
-#include <CoreFoundation/CFRuntime.h>
+#include "CFRuntime.h"
 #include "threading.h"
 
 namespace Security {

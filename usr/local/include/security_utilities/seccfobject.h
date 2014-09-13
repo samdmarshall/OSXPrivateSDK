@@ -26,7 +26,7 @@
 #ifndef _SECCFOBJECT_H
 #define _SECCFOBJECT_H
 
-#include <CoreFoundation/CFRuntime.h>
+#include "CFRuntime.h"
 #include <new>
 #include "threading.h"
 
