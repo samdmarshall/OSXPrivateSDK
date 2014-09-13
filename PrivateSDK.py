@@ -1,6 +1,12 @@
 import os
 import subprocess
 import shutil
+import time
+
+def should_update(installed, update):
+    existing = os.path.getmtime(installed)
+    updated = os.path.getmtime(update)
+    return existing < updated
 
 def file_exists(path):
     return os.path.exists(path)
@@ -34,8 +40,14 @@ def copy_private(path, sdk_path):
             original_path = os.path.join(root, name)
             sdk_item_path = original_path.split(os.getcwd()+'/')[1]
             private_sdk_item_path = os.path.join(sdk_path, sdk_item_path)
-            if file_exists(private_sdk_item_path) == False:
-                shutil.copy2(original_path, os.path.dirname(private_sdk_item_path))
+            if name != '.DS_Store':
+                if file_exists(private_sdk_item_path) == False:
+                    shutil.copy2(original_path, os.path.dirname(private_sdk_item_path))
+                else:
+                    if should_update(private_sdk_item_path, sdk_item_path) == True and os.path.islink(private_sdk_item_path) == False:
+                        print 'Updating \"' + private_sdk_item_path + '\"'
+                        shutil.copy2(original_path, os.path.dirname(private_sdk_item_path))
+
 
 kSDKSettingsPlist = 'SDKSettings.plist'
 
@@ -49,6 +61,7 @@ make_dir(private_sdk)
 mac_osx_sdk = subprocess.check_output(('xcrun', '--show-sdk-path')).rstrip('\n')
 
 # create the base SDK and symlinks back to existing latest
+print 'Generating SDK based on \"' + mac_osx_sdk + '\"...'
 for root, dirs, files in os.walk(mac_osx_sdk, followlinks=False):
     for name in dirs:
         original_path = os.path.join(root, name)
@@ -69,12 +82,16 @@ for root, dirs, files in os.walk(mac_osx_sdk, followlinks=False):
         if sdk_item_path != kSDKSettingsPlist:
             private_sdk_path = os.path.join(private_sdk, sdk_item_path)
             make_sym(original_path, private_sdk_path)
-        
+
+print 'Copying in additional SDK headers...'
 # now copy in the private headers
 copy_private('System', private_sdk)
 copy_private('usr', private_sdk)
 
+print 'Configuring SDK to be recognized by Xcode...'
 # finally, dump our own SDKSettings.plist
 sdksettings_plist = os.path.join(os.getcwd(), kSDKSettingsPlist)
 if file_exists(sdksettings_plist) == True:
     shutil.copy2(sdksettings_plist, private_sdk)
+
+print 'Finished creating SDK!'
