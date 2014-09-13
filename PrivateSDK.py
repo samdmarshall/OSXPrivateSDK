@@ -70,7 +70,7 @@ for root, dirs, files in os.walk(mac_osx_sdk, followlinks=False):
         private_sdk_item = os.path.join(private_sdk, sdk_item_path)
         if is_sym_link == False:
             make_dir(private_sdk_item)
-        if os.path.basename(sdk_item_path) == 'Headers' or os.path.basename(sdk_item_path) == 'PrivateHeaders' or os.path.basename(sdk_item_path) == 'Current':
+        if os.path.basename(sdk_item_path) == 'Headers' or os.path.basename(sdk_item_path) == 'PrivateHeaders' or os.path.basename(sdk_item_path) == 'Current' or os.path.basename(sdk_item_path) == 'Frameworks':
             if is_sym_link == True:
                 private_sdk_path = os.path.join(private_sdk, sdk_item_path)
                 make_sym(original_path, private_sdk_path)
