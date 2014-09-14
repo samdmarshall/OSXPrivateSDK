@@ -34,4 +34,26 @@
 
 #define CRSetCrashLogMessage2(x) /* nothing */
 
+/* Macros and information extracted from cups-372's usb-darwin.c. */
+#define _crc_make_setter(attr, arg) (gCRAnnotations.attr = (uint64_t)(unsigned long)(arg))
+#define CRASH_REPORTER_CLIENT_HIDDEN __attribute__((visibility("hidden")))
+#define CRASHREPORTER_ANNOTATIONS_VERSION 4
+#define CRASHREPORTER_ANNOTATIONS_SECTION "__crash_info"
+
+struct crashreporter_annotations_t {
+    uint64_t version;		// unsigned long
+    uint64_t message;		// char *
+    uint64_t signature_string;	// char *
+    uint64_t backtrace;		// char *
+    uint64_t message2;		// char *
+    uint64_t thread;		// uint64_t
+    uint64_t dialog_mode;		// unsigned int
+};
+
+CRASH_REPORTER_CLIENT_HIDDEN
+struct crashreporter_annotations_t gCRAnnotations
+    __attribute__((section("__DATA," CRASHREPORTER_ANNOTATIONS_SECTION)))
+    = { CRASHREPORTER_ANNOTATIONS_VERSION, 0, 0, 0, 0, 0, 0 };
+
+
 #endif /* _LIBC_CRASHREPORTERCLIENT_H */
