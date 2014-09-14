@@ -81,6 +81,9 @@
  * label can describe and the number of the "whole disk" (raw)
  * paritition are machine dependent.
  */
+#ifndef MAXPARTITIONS
+#define MAXPARTITIONS 8
+#endif
 #include <machine/disklabel.h>
 
 /*
