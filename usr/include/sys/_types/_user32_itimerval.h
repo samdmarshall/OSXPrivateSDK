@@ -25,6 +25,7 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
+#ifdef KERNEL
 #ifndef _STRUCT_USER32_ITIMERVAL
 #define _STRUCT_USER32_ITIMERVAL		struct user32_itimerval
 _STRUCT_USER32_ITIMERVAL
@@ -33,3 +34,4 @@ _STRUCT_USER32_ITIMERVAL
 	_STRUCT_USER32_TIMEVAL  it_value;       /* current value */
 };
 #endif /* _STRUCT_USER32_TIMEVAL */
+#endif

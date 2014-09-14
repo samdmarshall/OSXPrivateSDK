@@ -25,6 +25,7 @@
  * 
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
+#ifdef KERNEL
 #ifndef _STRUCT_USER64_TIMESPEC
 #define _STRUCT_USER64_TIMESPEC	struct user64_timespec
 _STRUCT_USER64_TIMESPEC
@@ -33,3 +34,4 @@ _STRUCT_USER64_TIMESPEC
 	user64_long_t   tv_nsec;        /* and nanoseconds */
 };
 #endif /* _STRUCT_USER64_TIMESPEC */
+#endif

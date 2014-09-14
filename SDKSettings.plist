@@ -19,11 +19,11 @@
 		<string>$(LIBRARY_KEXT_INSTALL_PATH)</string>
 	</dict>
 	<key>DisplayName</key>
-	<string>OS X Private (10.9)</string>
+	<string>OS X 10.9 (Private)</string>
 	<key>MaximumDeploymentTarget</key>
 	<string>10.9</string>
 	<key>MinimalDisplayName</key>
-	<string>Private (10.9)</string>
+	<string>10.9</string>
 	<key>MinimumSupportedToolsVersion</key>
 	<string>3.2</string>
 	<key>SupportedBuildToolComponents</key>
@@ -31,7 +31,7 @@
 		<string>com.apple.compilers.gcc.headers.4_2</string>
 	</array>
 	<key>Version</key>
-	<string>Private (10.9)</string>
+	<string>10.9</string>
 	<key>isBaseSDK</key>
 	<string>YES</string>
 </dict>
