@@ -1,3 +1,7 @@
+
+#ifndef __XPCPRIVATE__
+#define __XPCPRIVATE__
+
 #include <xpc/xpc.h>
 
 #define XPC_ENV_SANDBOX_CONTAINER_ID "APP_SANDBOX_CONTAINER_ID"
@@ -8,3 +12,6 @@ extern int _xpc_runtime_is_app_sandboxed();
 
 extern void xpc_connection_set_target_uid(xpc_connection_t connection, uid_t uid);
 
+extern void xpc_dictionary_set_mach_send(xpc_object_t message, char *name, mach_port_t bootstrap);
+	
+#endif
