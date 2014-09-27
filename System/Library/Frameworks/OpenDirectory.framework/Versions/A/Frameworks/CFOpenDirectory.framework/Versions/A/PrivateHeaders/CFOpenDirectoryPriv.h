@@ -28,8 +28,8 @@
                 change or go away at any time as they are not public API.
 */
 
-#ifndef __CFOPENDIRECTORYPRIV_H
-#define __CFOPENDIRECTORYPRIV_H
+#ifndef __CFOPENDIRECTORYPRIV_H__
+#define __CFOPENDIRECTORYPRIV_H__
 
 #include <CFOpenDirectory/CFOpenDirectory.h>
 // #include <CFOpenDirectory/CFOpenDirectoryConstantsPriv.h>

@@ -62,6 +62,62 @@ def make_xcrun_call(call_args):
         error = e.returncode
     
     return (output, error)
+    
+
+def walk_sdk_dirs(dirs):
+    for name in dirs:
+        original_path = os.path.join(root, name)
+        is_sym_link = os.path.islink(original_path)
+        sdk_item_path = original_path.split(mac_osx_sdk+'/')[1]
+        private_sdk_item = os.path.join(private_sdk, sdk_item_path)
+        if is_sym_link == False:
+            make_dir(private_sdk_item)
+        if os.path.basename(sdk_item_path) == 'Headers' or os.path.basename(sdk_item_path) == 'PrivateHeaders' or os.path.basename(sdk_item_path) == 'Current' or os.path.basename(sdk_item_path) == 'Frameworks':
+            if is_sym_link == True:
+                private_sdk_path = os.path.join(private_sdk, sdk_item_path)
+                make_sym(original_path, private_sdk_path)
+
+
+def walk_sdk_files(files):
+    for name in files:
+        original_path = os.path.join(root, name)
+        sdk_item_path = original_path.split(mac_osx_sdk+'/')[1]
+        if sdk_item_path != kSDKSettingsPlist:
+            private_sdk_path = os.path.join(private_sdk, sdk_item_path)
+            make_sym(original_path, private_sdk_path)
+
+
+def walk_sdk_frameworks(dirs):
+    for name in dirs:
+        original_path = os.path.join(root, name)
+        is_sym_link = os.path.islink(original_path)
+        sdk_item_path = original_path.split(mac_osx_sdk+'/')[1]
+        private_sdk_item = os.path.join(private_sdk, sdk_item_path)
+        if os.path.basename(sdk_item_path) == 'Frameworks':
+            if is_sym_link == True:
+                private_sdk_path = os.path.join(private_sdk, sdk_item_path)
+                base_framework_path = os.path.join(os.path.dirname(sdk_item_path), 'Versions/Current/Frameworks/')
+                remake_frameworks_sym_path = os.path.join(private_sdk, base_framework_path)
+                os.unlink(private_sdk_path)
+                make_sym(remake_frameworks_sym_path, private_sdk_path)
+
+
+def walk_sdk_current(dirs):
+    for name in dirs:
+        original_path = os.path.join(root, name)
+        is_sym_link = os.path.islink(original_path)
+        sdk_item_path = original_path.split(mac_osx_sdk+'/')[1]
+        private_sdk_item = os.path.join(private_sdk, sdk_item_path)
+        if os.path.basename(sdk_item_path) == 'Current':
+            if is_sym_link == True:
+                private_sdk_path = os.path.join(private_sdk, sdk_item_path)
+                find_linked_current = os.readlink(private_sdk_path)
+                if os.path.islink(find_linked_current) == True:
+                    current_framework_version = os.readlink(find_linked_current)
+                    base_version_sym_path = os.path.join(os.path.dirname(sdk_item_path), current_framework_version)
+                    remake_version_sym_path = os.path.join(private_sdk, base_version_sym_path)
+                    os.unlink(private_sdk_path)
+                    make_sym(remake_version_sym_path, private_sdk_path)
 
 
 kSDKSettingsPlist = 'SDKSettings.plist'
@@ -91,25 +147,11 @@ mac_osx_sdk = xcrun_result[0].rstrip('\n')
 # create the base SDK and symlinks back to existing latest
 print 'Generating SDK based on \"' + mac_osx_sdk + '\"...'
 for root, dirs, files in os.walk(mac_osx_sdk, followlinks=False):
-    for name in dirs:
-        original_path = os.path.join(root, name)
-        is_sym_link = os.path.islink(original_path)
-        sdk_item_path = original_path.split(mac_osx_sdk+'/')[1]
-        private_sdk_item = os.path.join(private_sdk, sdk_item_path)
-        if is_sym_link == False:
-            make_dir(private_sdk_item)
-        if os.path.basename(sdk_item_path) == 'Headers' or os.path.basename(sdk_item_path) == 'PrivateHeaders' or os.path.basename(sdk_item_path) == 'Current' or os.path.basename(sdk_item_path) == 'Frameworks':
-            if is_sym_link == True:
-                private_sdk_path = os.path.join(private_sdk, sdk_item_path)
-                make_sym(original_path, private_sdk_path)
-            
-        
-    for name in files:
-        original_path = os.path.join(root, name)
-        sdk_item_path = original_path.split(mac_osx_sdk+'/')[1]
-        if sdk_item_path != kSDKSettingsPlist:
-            private_sdk_path = os.path.join(private_sdk, sdk_item_path)
-            make_sym(original_path, private_sdk_path)
+    walk_sdk_dirs(dirs)
+    walk_sdk_files(files)
+    walk_sdk_current(dirs)
+    walk_sdk_frameworks(dirs)
+    
 
 print 'Copying in additional SDK headers...'
 # now copy in the private headers
