@@ -184,6 +184,7 @@ Status: Partial
 * Add `#include <CoreFoundation/CFRuntime.h>` and `#include <CoreFoundation/CFPriv.h>` to lib/gssapi/cf/item.c
 
 Build Order:
+
 1. HeimdalCompilers
 2. HeimdalFrameworksFoundation
 3. Heimdal
