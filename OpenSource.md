@@ -310,7 +310,7 @@ Status: Success
   * corecrypto/ccec_priv.h
 * libsecurity_filedb
   * remove -Werror
-  * change #include <sandbox.h> to #include <sandbox_private.h> in AtomicFile.cpp
+  * change `#include <sandbox.h>` to `#include <sandbox_private.h>` in AtomicFile.cpp
 
 ### libArchive
 * Success
