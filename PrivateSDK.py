@@ -3,6 +3,7 @@ import subprocess
 import shutil
 import time
 import sys
+import getopt
 from subprocess import CalledProcessError
 
 def should_update(installed, update):
@@ -12,11 +13,11 @@ def should_update(installed, update):
 
 def file_exists(path):
     return os.path.exists(path)
-    
+
 def make_dir(path):
     if file_exists(path) == False:
         os.mkdir(path)
-        
+
 def make_sym(original, path):
     if file_exists(path) == False:
         os.symlink(original, path)
@@ -36,8 +37,8 @@ def copy_private(path, sdk_path):
                 sdk_link = link_path.split(os.getcwd()+'/')[1]
                 sdk_target_link = os.path.join(sdk_path, sdk_link)
                 make_sym(sdk_target_link, private_sdk_item_path)
-            
-        
+
+
         for name in files:
             original_path = os.path.join(root, name)
             sdk_item_path = original_path.split(os.getcwd()+'/')[1]
@@ -60,9 +61,9 @@ def make_xcrun_call(call_args):
     except CalledProcessError as e:
         output = e.output
         error = e.returncode
-    
+
     return (output, error)
-    
+
 
 def walk_sdk_dirs(dirs):
     for name in dirs:
@@ -122,36 +123,62 @@ def walk_sdk_current(dirs):
 
 kSDKSettingsPlist = 'SDKSettings.plist'
 
-
-platform_path = ''
-xcrun_result = make_xcrun_call(('xcrun', '--show-sdk-platform-path'))
-if xcrun_result[1] != 0:
-    print 'Please run Xcode first!'
+def usage():
+    print 'Usage: ' + sys.argv[0] + ' [-i <input-sdk>] [-o <output-sdk>]'
     sys.exit()
-    
-platform_path = xcrun_result[0].rstrip('\n')
-platform_path = os.path.join(platform_path, 'Developer/SDKs/')
 
-private_sdk = os.path.join(platform_path, 'PrivateMacOSX10.9.sdk')
+private_sdk = ''
+mac_osx_sdk = ''
+
+try:
+    opts, args = getopt.getopt(sys.argv[1:], "hi:o:", ["input-sdk=", "output-sdk="])
+except getopt.GetoptError:
+    usage()
+
+for opt, arg in opts:
+    if opt == '-h':
+       usage()
+    elif opt in ("-i", "--input-sdk"):
+       mac_osx_sdk = arg
+    elif opt in ("-o", "--output-sdk"):
+       private_sdk = arg
+
+if not private_sdk:
+    platform_path = ''
+    xcrun_result = make_xcrun_call(('xcrun', '--show-sdk-platform-path'))
+    if xcrun_result[1] != 0:
+        print 'Please run Xcode first!'
+        sys.exit()
+
+    platform_path = xcrun_result[0].rstrip('\n')
+    platform_path = os.path.join(platform_path, 'Developer/SDKs/')
+
+    private_sdk = os.path.join(platform_path, 'PrivateMacOSX10.9.sdk')
+
+if not mac_osx_sdk:
+    xcrun_result = make_xcrun_call(('xcrun', '--show-sdk-path'))
+    if xcrun_result[1] != 0:
+        print 'Please run Xcode first!'
+        sys.exit()
+
+    mac_osx_sdk = xcrun_result[0].rstrip('\n')
+
+
+mac_osx_sdk = os.path.abspath(mac_osx_sdk)
+private_sdk = os.path.abspath(private_sdk)
 
 make_dir(private_sdk)
 
-mac_osx_sdk = ''
-xcrun_result = make_xcrun_call(('xcrun', '--show-sdk-path'))
-if xcrun_result[1] != 0:
-    print 'Please run Xcode first!'
-    sys.exit()
-    
-mac_osx_sdk = xcrun_result[0].rstrip('\n')
-
 # create the base SDK and symlinks back to existing latest
-print 'Generating SDK based on \"' + mac_osx_sdk + '\"...'
+print 'Input SDK:  \"' + mac_osx_sdk + '\"'
+print 'Output SDK: \"' + private_sdk + '\"'
+print 'Generating SDK...'
 for root, dirs, files in os.walk(mac_osx_sdk, followlinks=False):
     walk_sdk_dirs(dirs)
     walk_sdk_files(files)
     walk_sdk_current(dirs)
     walk_sdk_frameworks(dirs)
-    
+
 
 print 'Copying in additional SDK headers...'
 # now copy in the private headers
