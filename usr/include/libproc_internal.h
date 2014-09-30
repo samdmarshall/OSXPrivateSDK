@@ -61,7 +61,6 @@ int proc_devstatusnotify(int devicestatus);
 #define PROC_PIDBIND_SET	1
 int proc_pidbind(int pid, uint64_t threadid, int bind);
 
-
 #else /* TARGET_OS_EMBEDDED */
 
 /* resume the process suspend due to low VM resource */
@@ -90,6 +89,37 @@ int proc_disable_apptype(pid_t pid, int apptype);
 int proc_enable_apptype(pid_t pid, int apptype);
 
 #endif /* TARGET_OS_EMBEDDED */
+
+/* mark process as importance donating */
+int proc_donate_importance_boost(void);
+
+/* check the message for an importance boost and take an assertion on it */
+int proc_importance_assertion_begin_with_msg(mach_msg_header_t  *msg,
+											 mach_msg_trailer_t *trailer,
+											 uint64_t *assertion_token);
+
+/* drop an assertion */
+int proc_importance_assertion_complete(uint64_t assertion_handle);
+
+int proc_set_cpumon_params(pid_t pid, int percentage, int interval) __OSX_AVAILABLE_STARTING(__MAC_10_8, __IPHONE_6_0);
+int proc_get_cpumon_params(pid_t pid, int *percentage, int *interval) __OSX_AVAILABLE_STARTING(__MAC_10_8, __IPHONE_6_0);
+int proc_set_cpumon_defaults(pid_t pid) __OSX_AVAILABLE_STARTING(__MAC_10_8, __IPHONE_6_0);
+int proc_disable_cpumon(pid_t pid) __OSX_AVAILABLE_STARTING(__MAC_10_8, __IPHONE_6_0);
+
+int proc_set_wakemon_params(pid_t pid, int rate_hz, int flags) __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0);
+int proc_get_wakemon_params(pid_t pid, int *rate_hz, int *flags) __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0);
+int proc_set_wakemon_defaults(pid_t pid) __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0);
+int proc_disable_wakemon(pid_t pid) __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0);
+
+#if !TARGET_IPHONE_SIMULATOR
+
+#define PROC_SUPPRESS_SUCCESS                (0)
+#define PROC_SUPPRESS_BAD_ARGUMENTS         (-1)
+#define PROC_SUPPRESS_OLD_GENERATION        (-2)
+#define PROC_SUPPRESS_ALREADY_SUPPRESSED    (-3)
+
+int proc_suppress(pid_t pid, uint64_t *generation);
+#endif /* !TARGET_IPHONE_SIMULATOR */
 
 __END_DECLS
 

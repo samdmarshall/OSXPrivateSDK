@@ -18,6 +18,8 @@ extern int _qtn_file_init_with_path(qtn_file_t file, const char *path);
 extern int _qtn_file_init_with_data(qtn_file_t file, const void *, size_t);
 extern int _qtn_file_to_data(qtn_file_t file, void *, size_t*);
 
+extern int _qtn_file_apply_to_path(qtn_file_t qf, char *path);
+
 extern const char *_qtn_error(int err);
 
 extern const char *_qtn_xattr_name;

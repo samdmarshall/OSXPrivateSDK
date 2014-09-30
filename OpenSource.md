@@ -286,24 +286,191 @@ Status: Fail
 
 * Missing Headers
 
+### IOStorageFamily-172
+
+Status: Fail
+
+* Missing iconcompiler binary
+
+### IOUSBMassStorageClass-360.0.3
+
+Status: Fail
+
+* Missing `#include <IOKit/scsi/IOSCSIArchitectureModelFamilyTimestamps.h>`
+
+### ipsec-258.100.1
+
+Status: Partial
+
+* Comment out in `api_support.h`: 
+	
+		#include <SNIPSecIKEDefinitions.h>
+		#include <SNIPSecDBDefinitions.h>
+		#include <SNIPSecIKE.h>
+		#include <SNIPSecDB.h>
+		...
+		SNIPSecIKEStatus ASIKEGetConnectionStatus (InternalIKESARef ref);
+		SNIPSecIKEStatus ASIKEGetChildStatus (InternalIKESARef ref, InternalChildSARef childref);
+
+* Missing symbols
+
 ### KerberosHelper-148
 
 Status: Success
 
-### smb-697.92.4
+### kext_tools-326.90.2
+
+Status: Partial
+
+### keymgr-28
 
 Status: Success
+
+### launchd-842.92.1
+
+Status: Partial
+
+* Disable `-Werror`
+* Missing `xpc/domain.defs`
+
+### less-23
+
+Status: Success
+
+### libarchive-29
+
+Status: Success
+
+* change `qtn_file_apply_to_path` to `_qtn_file_apply_to_path` in read.c
+
+### libauto-185.5
+
+Status: Partial
+
+* Add `#include <asl.h>` to auto_zone.cpp
+* Unlink CrashReporterClient
+
+### Libc-997.90.3
+
+Status: Partial
+
+* Comment out `#include "stack_logging.h"`
+
+### libclosure-63
+
+Status: Success
+
+### libdispatch-339.92.1
+
+Status: Success 
+
+### libedit-39
+
+Status: Success
+
+### libffi-18.1
+
+Status: Success
+
+### libfs-13
+
+Status: Success
+
+### libiconv-41
+
+Status: Success
+
+### libinfo-449.1.3
+
+Status: Success
+
+* disable unused variable warning
+
+### Libnotify-121
+
+Status: Success
+
+### libpcap-42
+
+Status: Success
+
+### libresolv-54
+
+Status: Success
+
+### Librpcsvc-23
+
+Status: Success
+
+### libsecurity-agent-55000
+
+Status: Success
+
+### libsecurity-ldap-dl-55002
+
+Status: Success
+
+### libstdcxx-60
+
+Status: Success
+
+### Libsystem-1197.1.1
+
+Status: Fail
+
+### libtelnet-13
+
+Status: Success
+
+### libunwind-35.3
+
+Status: Success
+
+* build in release mode, not debug
 
 ### libutil-34
 
 Status: Success
 
-* Change `#include <mntopts.h>` to `#include "mntopts.h"` in getmntopts.c
-* Change `#include <libutil.h>` to `#include "libutil.h"` in humanize_number.c, pidfile.c, trimdomain.c
+### libxml2-26
+
+Status: Success
+
+### libxslt-13
+
+Status: Success
 
 ### liby-20
 
 Status: Success
+
+### mail_cmds-29
+
+Status: Success
+
+* Errors on unused copyright variables
+
+### misc_cmds-32
+
+Status: Success
+
+### MITKerberosShim-62.1
+
+Status: Fail
+
+### modemccl-25.1
+
+Status: Success
+
+
+
+### smb-697.92.4
+
+Status: Success
+
+
+* Change `#include <mntopts.h>` to `#include "mntopts.h"` in getmntopts.c
+* Change `#include <libutil.h>` to `#include "libutil.h"` in humanize_number.c, pidfile.c, trimdomain.c
 
 ### Security-55471.14.8
 * Mostly builds, except for missing:
@@ -313,42 +480,6 @@ Status: Success
   * remove -Werror
   * change `#include <sandbox.h>` to `#include <sandbox_private.h>` in AtomicFile.cpp
 
-### libArchive
-* Success
-  * Comment out `#define HAVE_QUARANTINE 1`
-  * Comment out `#define HAVE_LZMA_H 1`
-
-### libClosure-63
-* Success
-
-### libDispatch-339.92.1
-* Success
-
-### libEdit-39
-* Success
-
-### libFFI-19.1
-* Success
-
-### libfs-13
-* Success
-
-### libNotify-121
-* Add `#include <sys/fileport.h>` to:
-  * notify_client.c
-  * notify_proc.c
-
-### libresolv-54
-* Success
-
-### libsecurity-agent-55000
-* Success
-
-### libsecurity-ldap-dl-55002
-* Success
-
-### libunwind-35.3
-* Success (build in release mode, not debug)
 
 ### xar-202
 * Success

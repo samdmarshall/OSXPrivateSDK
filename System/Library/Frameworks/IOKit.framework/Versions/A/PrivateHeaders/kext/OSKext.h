@@ -35,7 +35,7 @@ __BEGIN_DECLS
 #include <CoreFoundation/CoreFoundation.h>
 #include "libkern/OSReturn.h"
 #include "libkern/OSKextLib.h"
-#include "libkern/OSKextLibPrivate.h>
+#include "libkern/OSKextLibPrivate.h"
 #include <mach/mach.h>
 #include <mach-o/arch.h>
 

@@ -10,18 +10,22 @@ def should_update(installed, update):
     updated = os.path.getmtime(update)
     return existing < updated
 
+
 def file_exists(path):
     return os.path.exists(path)
-    
+
+
 def make_dir(path):
     if file_exists(path) == False:
         os.mkdir(path)
-        
+
+
 def make_sym(original, path):
     if file_exists(path) == False:
         os.symlink(original, path)
 
-def copy_private(path, sdk_path):
+    
+def iterate_sdk(path, sdk_path):
     private_path = os.path.join(os.getcwd(), path)
     for root, dirs, files in os.walk(private_path, followlinks=False):
         for name in dirs:
@@ -51,6 +55,17 @@ def copy_private(path, sdk_path):
                         shutil.copy2(original_path, os.path.dirname(private_sdk_item_path))
 
 
+def copy_internal(path, sdk_path):
+    internal_path = os.path.join(sdk_path, path)
+    if file_exists(internal_path) == False:
+        os.mkdir(internal_path)
+    iterate_sdk(path, sdk_path)
+
+
+def copy_private(path, sdk_path):
+    iterate_sdk(path, sdk_path)
+
+
 def make_xcrun_call(call_args):
     error = 0
     output = ''
@@ -62,7 +77,7 @@ def make_xcrun_call(call_args):
         error = e.returncode
     
     return (output, error)
-    
+
 
 def walk_sdk_dirs(dirs):
     for name in dirs:
@@ -155,6 +170,7 @@ for root, dirs, files in os.walk(mac_osx_sdk, followlinks=False):
 
 print 'Copying in additional SDK headers...'
 # now copy in the private headers
+copy_internal('AppleInternal', private_sdk)
 copy_private('System', private_sdk)
 copy_private('usr', private_sdk)
 
