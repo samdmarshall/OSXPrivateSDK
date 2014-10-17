@@ -24,6 +24,8 @@ extern const char *_qtn_error(int err);
 
 extern const char *_qtn_xattr_name;
 
+extern const int _qtn_proc_to_data(void * spawn_quarantine, char *qbuf,size_t *qbuf_sz);
+
 #define QTN_SERIALIZED_DATA_MAX 4096
 
 #define qtn_file_alloc _qtn_file_alloc
@@ -42,5 +44,7 @@ extern const char *_qtn_xattr_name;
 #define qtn_error _qtn_error
 
 #define qtn_xattr_name _qtn_xattr_name
+
+#define qtn_proc_to_data _qtn_proc_to_data
 
 #endif

@@ -30,7 +30,7 @@
 #define _MACHINE_CPU_CAPABILITIES_H
 
 #if defined (__i386__) || defined(__x86_64__)
-#include <System/i386/cpu_capabilities.h>
+#include <i386/cpu_capabilities.h>
 #else
 #error architecture not supported
 #endif

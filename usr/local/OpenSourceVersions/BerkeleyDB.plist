@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>OpenSourceImportDate</key>
+		<string>2010-01-20</string>
+		<key>OpenSourceLicense</key>
+		<string>Other</string>
+		<key>OpenSourceLicenseFile</key>
+		<string>BerkeleyDB.txt</string>
+		<key>OpenSourceModifications</key>
+		<array>
+			<string>changes to libtool.ac, configure, and ltmain.sh to interoperate with Mac OS X build system</string>
+		</array>
+		<key>OpenSourceProject</key>
+		<string>BerkeleyDB</string>
+		<key>OpenSourceSHA1</key>
+		<string></string>
+		<key>OpenSourceURL</key>
+		<string>http://download.oracle.com/berkeley-db/db-4.7.25.tar.gz</string>
+		<key>OpenSourceVersion</key>
+		<string>4.7.25</string>
+		<key>OpenSourceWebsiteURL</key>
+		<string>http://www.oracle.com/technology/products/berkeley-db/index.html</string>
+	</dict>
+</array>
+</plist>
