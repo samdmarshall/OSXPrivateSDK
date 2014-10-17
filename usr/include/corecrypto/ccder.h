@@ -180,6 +180,8 @@ inline CC_NONNULL((2,3))
 uint8_t *ccder_encode_raw_octet_string(size_t s_size, const uint8_t *s,
                                        const uint8_t *der, uint8_t *der_end);
 
+									   size_t ccder_sizeof_raw_octet_string(CFIndex length);
+
 /* ccder_encode_body COPIES the body into the der.
    It's inefficient – especially when you already have to convert to get to
    the form for the body.

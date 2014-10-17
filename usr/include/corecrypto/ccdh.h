@@ -26,7 +26,7 @@ typedef struct ccdh_ctx_header ccdh_ctx_header;
 struct ccdh_full_ctx_t {
 	struct ccdh_ctx_header *hdr;
 	void *_full;
-	ccdh_full_ctx_t pub;
+	struct ccdh_full_ctx_t pub;
 };
 
 typedef struct ccdh_full_ctx_t ccdh_full_ctx_t;
