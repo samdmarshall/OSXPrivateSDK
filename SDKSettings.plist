@@ -32,6 +32,8 @@
 	</array>
 	<key>Version</key>
 	<string>10.9</string>
+	<key>BaseSDKName</key>
+	<string>macosx10.9</string>
 	<key>isBaseSDK</key>
 	<string>YES</string>
 </dict>
