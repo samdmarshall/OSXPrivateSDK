@@ -1,0 +1,3 @@
+[submodule "SDKBuilder"]
+	path = SDKBuilder
+	url = git@github.com:samdmarshall/SDK-Builder.git
