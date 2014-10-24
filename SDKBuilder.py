@@ -218,7 +218,7 @@ def main(argv):
                 copy_internal(sdk_item_dir, args.sdk, kPrivateSDK, kVerboseLogLevel);
                 
     else:
-        v_log('SDK \''+get_sdk_name(kSDKSettingsPlist)+'\' already exists, please specify `-u` or `--update` to update the existing SDK',0, kVerboseLogLevel);
+        v_log('SDK \''+get_sdk_name(kSDKSettingsPlist)+'\' already exists.\n\tUse `-u` or `--update` to update the existing SDK.\n\tUse `-f` or `--force`  to overwrite the existing SDK.',0, kVerboseLogLevel);
     
     sdk_settings_plist = os.path.join(args.sdk, kSDKSettingsPlistName)
     if file_exists(sdk_settings_plist) == True:
