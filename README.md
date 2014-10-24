@@ -4,7 +4,8 @@ OSXPrivateSDK
 SDK target for opensource.apple.com code
 
 1. Quit Xcode
-2. Run PrivateSDK.py 
+2. `$ cd ~/Desktop; git clone git@github.com:samdmarshall/OSXPrivateSDK.git PrivateSDK | cd PrivateSDK | git submodule update --init --recursive | cd SDKBuilder`
+2. `$ python SDKBuilder.py --sdk ~/Desktop/PrivateSDK/PrivateSDK/`
 3. Open Xcode and select "Private (10.9)" as your SDK Target
 
 
