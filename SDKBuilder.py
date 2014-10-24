@@ -104,7 +104,7 @@ def iterate_sdk(path, template_path, sdk_path, kVerboseLogLevel):
                 if file_exists(private_sdk_item_path) == False:
                     shutil.copy2(original_path, os.path.dirname(private_sdk_item_path));
                 else:
-                    if should_update(private_sdk_item_path, sdk_item_path) == True and os.path.islink(private_sdk_item_path) == False:
+                    if should_update(private_sdk_item_path, os.path.join(template_path, sdk_item_path)) == True and os.path.islink(private_sdk_item_path) == False:
                         v_log('Updating \"' + private_sdk_item_path + '\"',0, kVerboseLogLevel);
                         shutil.copy2(original_path, os.path.dirname(private_sdk_item_path));
 def copy_internal(path, template_path, sdk_path, kVerboseLogLevel):
@@ -176,11 +176,15 @@ def main(argv):
     kVerboseLogLevel = args.verbose;
         
     if sdk_template_exists(args.sdk) == False:
-        v_log('Invalid SDK template!',0, kVerboseLogLevel);
+        v_log('Could not find SDK template!',0, kVerboseLogLevel);
         sys.exit();
     
     kSDKSettingsPlistPath = os.path.join(args.sdk, kSDKSettingsPlistName); 
     kSDKSettingsPlist = load_sdk_template_list(kSDKSettingsPlistPath);
+    
+    if kSDKSettingsPlist['BaseSDKName'] == '':
+        v_log('Invalid SDK Template, must include \'BaseSDKName\' key!',0,kVerboseLogLevel);
+        sys.exit();
     
     sdk_type = get_sdk_template_taget(kSDKSettingsPlist)
     platform_path = resolve_platform_path(sdk_type);
@@ -200,17 +204,21 @@ def main(argv):
             walk_sdk_current(root, kBaseSDKPath, kPrivateSDK, dirs, kVerboseLogLevel)
             walk_sdk_frameworks(root, kBaseSDKPath, kPrivateSDK, dirs, kVerboseLogLevel)
         
+    message = 'Copy';
     if args.update == True and sdk_exists == True:
-        v_log('Updating...',0);
-    elif (args.update == True and sdk_exists == False) or (args.update == False and sdk_exists == False):
-        v_log('Copying in additional SDK resources...',0, kVerboseLogLevel);
+        message = 'Updat';
+        v_log(message+'ing SDK from template...',0,kVerboseLogLevel);
+        sdk_exists = False;
+    
+    if (args.update == True and sdk_exists == False) or (args.update == False and sdk_exists == False):
+        v_log(message+'ing additional SDK resources...',0, kVerboseLogLevel);
         for sdk_item_dir in os.listdir(args.sdk):
-            if os.path.isdir(sdk_item_dir) and sdk_item_dir.startswith('.') == False:
-                v_log('Copying: '+sdk_item_dir, 1, kVerboseLogLevel);
+            if os.path.isdir(os.path.join(args.sdk,sdk_item_dir)) and sdk_item_dir.startswith('.') == False:
+                v_log(message+'ing: '+sdk_item_dir, 1, kVerboseLogLevel);
                 copy_internal(sdk_item_dir, args.sdk, kPrivateSDK, kVerboseLogLevel);
                 
     else:
-        v_log('SDK already exists, please specify `-u` or `--update` to update the existing SDK',0, kVerboseLogLevel);
+        v_log('SDK \''+get_sdk_name(kSDKSettingsPlist)+'\' already exists, please specify `-u` or `--update` to update the existing SDK',0, kVerboseLogLevel);
     
     sdk_settings_plist = os.path.join(args.sdk, kSDKSettingsPlistName)
     if file_exists(sdk_settings_plist) == True:
