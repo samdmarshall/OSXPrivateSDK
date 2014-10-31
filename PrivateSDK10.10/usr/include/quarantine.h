@@ -4,6 +4,16 @@
 #include <stdint.h>
 
 typedef struct _qtn_file_s *qtn_file_t;
+typedef struct qtn_proc * qtn_proc_t;
+
+#define QTN_FLAG_SANDBOX 1
+#define QTN_FLAG_HARD 2
+
+extern qtn_proc_t _qtn_proc_alloc();
+extern void _qtn_proc_set_identifier(qtn_proc_t qp, char *identifier);
+extern void _qtn_proc_set_flags(qtn_proc_t qp, int flags);
+extern void _qtn_proc_apply_to_self(qtn_proc_t qp);
+extern void _qtn_proc_free(qtn_proc_t qp);
 
 extern qtn_file_t _qtn_file_alloc();
 extern void _qtn_file_free(qtn_file_t);
