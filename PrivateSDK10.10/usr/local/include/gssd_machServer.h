@@ -3,6 +3,6 @@
 
 #include <mach/mach.h>
 
-boolean_t gssd_mach_server(mach_msg_header_t *, mach_msg_header_t *);
+extern boolean_t gssd_mach_server(mach_msg_header_t *, mach_msg_header_t *);
 
 #endif

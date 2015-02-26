@@ -8,6 +8,7 @@
 enum {
 	kSAMClassUSB = 0xE2, // guess based on http://www.projectosx.com/forum/lofiversion/index.php/t1922.html
 	kSAMClassFireWire,
+	kSAMClassATAPI,
 };
 
 #endif
