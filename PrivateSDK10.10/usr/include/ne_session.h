@@ -25,4 +25,7 @@ extern void ne_session_get_info(ne_session_t session, int info, dispatch_queue_t
 
 extern int ne_session_copy_security_session_info(ne_session_t session, mach_port_t *bootstrap_port, mach_port_t *audit_session_port);
 
+extern int ne_session_use_as_system_vpn();
+
+
 #endif
