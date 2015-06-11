@@ -1,0 +1,6 @@
+#ifndef _IOKIT_IO_SCSI_ARCHITECTURE_MODEL_FAMILY_TIMESTAMPS_H_
+#define _IOKIT_IO_SCSI_ARCHITECTURE_MODEL_FAMILY_TIMESTAMPS_H_
+
+#include <IOKit/scsi/IOSCSIArchitectureModelFamilyDebugging.h>
+
+#endif
