@@ -1,2 +1,0 @@
-/* pull in the header as determined for this platform at configure time */
-#include <dce/generic/ndrtypes.h>
