@@ -19,6 +19,8 @@
 		<string>macosx</string>
 		<key>DEFAULT_KEXT_INSTALL_PATH</key>
 		<string>$(LIBRARY_KEXT_INSTALL_PATH)</string>
+		<key>OTHER_CFLAGS</key>
+		<string>-iframework $(SDK_DIR)/System/Library/PrivateFrameworks/</string>
 	</dict>
 	<key>DisplayName</key>
 	<string>OS X Private (10.9)</string>

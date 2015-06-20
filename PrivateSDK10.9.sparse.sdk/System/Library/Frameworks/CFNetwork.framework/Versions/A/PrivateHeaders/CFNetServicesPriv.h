@@ -3,6 +3,6 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 
-extern CFNetServiceRef _CFNetServiceCreateFromURL(CFAllocator allocator, CFURLRef url);
+extern CFNetServiceRef _CFNetServiceCreateFromURL(CFAllocatorRef allocator, CFURLRef url);
 
 #endif

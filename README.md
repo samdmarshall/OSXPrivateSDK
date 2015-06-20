@@ -7,7 +7,7 @@ SDK target for opensource.apple.com code
 2. Go to `Build Settings` for the project file and add `<path to clone directory>/PrivateSDKs/PrivateMacOSX10.9.sparse.sdk` to the `Additional SDKs` build setting. 
 
 
-**Note: On some projects this will not work out of the box, if you have build errors due to not being able to find headers or frameworks, then check the build log if anything is assigning `-isystem` and remove that.**
+**Note: On some projects this will not work out of the box, if you have build errors due to not being able to find headers or frameworks. Use the flags `-isystem` and `-iframework` to add additional system header and framework search paths as necessary.**
 
 
 This is based on many of the projects on opensource.apple.com to build in a proper environment. 
